@@ -34,7 +34,7 @@ FALLBACK_MODELS = [
     "qwen/qwen-2-7b-instruct:free",          # Multi-language expert
     "gryphe/mythomist-7b:free",              # Roleplay/Romantic baaton ke liye
     "meta-llama/llama-4-maverick:free",      # Purana fallback
-    "openrouter/free"                        # Last option (Auto-select)
+    "openrouter/free",                        # Last option (Auto-select)
     "google/gemini-2.0-flash-exp:free",      # Sabse fast reply
 ]
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
