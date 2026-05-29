@@ -214,14 +214,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply = await call_muskan(user_id, update.message.text)
     await update.message.reply_text(reply)
 
+import os
+# Baaki imports yahan honge...
+
 def main():
+    # 1. Token ko function ke andar load karo
+    BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+    
+    # 2. Check karo ki token mila ya nahi
+    if not BOT_TOKEN:
+        print("Error: TELEGRAM_BOT_TOKEN variable set nahi hai!")
+        return
+
     init_db()
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    
+    # 3. Yahan 'BOT_TOKEN' variable ka use karo
+    app = Application.builder().token(BOT_TOKEN).build()
+    
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("refer", refer))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    
     print("✅ Muskan Bot Started with Anti-Bypass!")
     app.run_polling()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
