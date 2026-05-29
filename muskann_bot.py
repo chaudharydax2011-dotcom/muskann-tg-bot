@@ -86,8 +86,21 @@ def get_or_create_db_user(user_id):
     conn.close()
     return user
 def update_db_user(user_id, **kwargs):
-    conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
-    # ... baki code same rahega
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    fields = []
+    values = []
+
+    for key, value in kwargs.items():
+        fields.append(f"{key}=?")
+        values.append(value)
+
+    values.append(user_id)
+
+    query = f"UPDATE users SET {', '.join(fields)} WHERE user_id=?"
+    cursor.execute(query, values)
+
     conn.commit()
     conn.close()
 
