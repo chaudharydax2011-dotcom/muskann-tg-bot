@@ -16,7 +16,7 @@ from telegram.ext import (
 
 # --- CREDENTIALS & CONFIGURATION ---
 import os
-TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 # Nayi Working API Key yahan dalo
 # Purani line hata kar ye likho:
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
