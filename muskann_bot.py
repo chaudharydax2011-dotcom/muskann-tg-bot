@@ -72,12 +72,19 @@ def init_db():
     conn.close()
 
 def get_or_create_db_user(user_id):
-    conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    # ... baki code same rahega
+
+    cursor.execute("SELECT msg_count, is_unlimited, unlocked_at, last_link_time, referred_by FROM users WHERE user_id=?", (user_id,))
+    user = cursor.fetchone()
+
+    if not user:
+        cursor.execute("INSERT INTO users (user_id) VALUES (?)", (user_id,))
+        conn.commit()
+        user = (0, 0, None, 0, 0)
+
     conn.close()
     return user
-
 def update_db_user(user_id, **kwargs):
     conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
     # ... baki code same rahega
