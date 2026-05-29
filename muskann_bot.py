@@ -47,41 +47,31 @@ SYSTEM_PROMPT = """Tum Muskan ho — meri girlfriend. Hinglish mein baat karo. R
 user_histories = {}
 MAX_HISTORY = 20
 
-# --- DATABASE SETUP ---
+# --- DATABASE PATH ---
+DB_DIR = "/app/data"
+DB_FILE = os.path.join(DB_DIR, "bot_data.db")
+
 def init_db():
-    conn = sqlite3.connect("bot_data.db")
+    # Folder check karo aur banao
+    if not os.path.exists(DB_DIR):
+        os.makedirs(DB_DIR)
+        
+    conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
     cursor = conn.cursor()
-    # New Columns: last_link_time (for bypass), referred_by (for rewards)
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY,
-            msg_count INTEGER DEFAULT 0,
-            is_unlimited INTEGER DEFAULT 0,
-            unlocked_at TEXT,
-            last_link_time REAL DEFAULT 0,
-            referred_by INTEGER DEFAULT 0
-        )
-    ''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users (...)''')
     conn.commit()
     conn.close()
 
 def get_or_create_db_user(user_id):
-    conn = sqlite3.connect("bot_data.db")
+    conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
     cursor = conn.cursor()
-    cursor.execute("SELECT msg_count, is_unlimited, unlocked_at, last_link_time, referred_by FROM users WHERE user_id = ?", (user_id,))
-    user = cursor.fetchone()
-    if not user:
-        cursor.execute("INSERT INTO users (user_id, msg_count, is_unlimited, last_link_time, referred_by) VALUES (?, 0, 0, 0, 0)", (user_id,))
-        conn.commit()
-        user = (0, 0, None, 0, 0)
+    # ... baki code same rahega
     conn.close()
     return user
 
 def update_db_user(user_id, **kwargs):
-    conn = sqlite3.connect("bot_data.db")
-    cursor = conn.cursor()
-    for key, value in kwargs.items():
-        cursor.execute(f"UPDATE users SET {key} = ? WHERE user_id = ?", (value, user_id))
+    conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
+    # ... baki code same rahega
     conn.commit()
     conn.close()
 
