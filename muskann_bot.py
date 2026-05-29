@@ -58,7 +58,16 @@ def init_db():
         
     conn = sqlite3.connect(DB_FILE) # Yahan path update kiya
     cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (...)''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        user_id INTEGER PRIMARY KEY,
+        msg_count INTEGER DEFAULT 0,
+        is_unlimited INTEGER DEFAULT 0,
+        unlocked_at TEXT,
+        last_link_time REAL DEFAULT 0,
+        referred_by INTEGER DEFAULT 0
+    )
+''')
     conn.commit()
     conn.close()
 
