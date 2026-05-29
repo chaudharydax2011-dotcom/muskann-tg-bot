@@ -189,12 +189,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(reply)
 
 def main():
+    # YE LINE SABSE IMPORTANT HAI - Yahan koi global variable nahi hai
+    app = Application.builder().token(os.environ.get("TELEGRAM_BOT_TOKEN")).build()
+    
     init_db()
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("refer", refer))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    print("✅ Muskan Bot Started with Anti-Bypass!")
+    
+    # Handlers (Aapke baaki handlers yahan)
+    # app.add_handler(CommandHandler("start", start))
+    
+    print("✅ Bot Started Successfully!")
     app.run_polling()
 
 if __name__ == "__main__":
