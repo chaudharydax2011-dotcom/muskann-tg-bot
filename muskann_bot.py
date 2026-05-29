@@ -37,7 +37,7 @@ REQUIRED_CHANNEL = "@crocodileislive"
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-MODEL = "google/gemini-2.0-flash-exp:free"
+MODEL = "MODEL" = "deepseek/deepseek-v4-flash:free"
 
 FALLBACK_MODELS = [
     "meta-llama/llama-3.1-8b-instruct:free",
