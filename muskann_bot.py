@@ -66,22 +66,25 @@ async def handle_message(update, context):
 
 # --- MAIN ---
 def main():
-    # Token yahan load hoga, global variable ki zaroorat nahi
+    # 1. Railway se token yahan uthao
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     
+    # 2. Check karo ki token mila ya nahi
     if not bot_token:
-        print("❌ ERROR: Railway Variable 'TELEGRAM_BOT_TOKEN' set nahi hai!")
+        print("❌ ERROR: TELEGRAM_BOT_TOKEN variable set nahi hai!")
         return
 
     init_db()
+    
+    # 3. Yahan 'bot_token' variable ka use karo
     app = Application.builder().token(bot_token).build()
     
+    # --- Baki aapke handlers yahan aayenge ---
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("refer", lambda u, c: u.message.reply_text(f"🔗 Link: https://t.me/{BOT_USERNAME}?start=ref_{u.effective_user.id}")))
+    app.add_handler(CommandHandler("refer", refer))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    print("✅ Bot is fully running!")
+    print("✅ Muskan Bot Started Successfully!")
     app.run_polling()
-
 if __name__ == "__main__":
     main()
