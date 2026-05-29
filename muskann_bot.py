@@ -48,10 +48,17 @@ user_histories = {}
 MAX_HISTORY = 20
 
 # --- DATABASE SETUP ---
+# --- UPDATED DATABASE SETUP FOR RAILWAY VOLUME (Line 50) ---
+DB_DIR = "/app/data"
+DB_PATH = os.path.join(DB_DIR, "bot_data.db")
+
+# Ye folder banayega agar nahi hoga toh
+if not os.path.exists(DB_DIR):
+    os.makedirs(DB_DIR)
+
 def init_db():
-    conn = sqlite3.connect("bot_data.db")
+    conn = sqlite3.connect(DB_PATH) # Naya Path
     cursor = conn.cursor()
-    # New Columns: last_link_time (for bypass), referred_by (for rewards)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
@@ -62,11 +69,19 @@ def init_db():
             referred_by INTEGER DEFAULT 0
         )
     ''')
+    # Missing columns check (Taki error na aaye)
+    try:
+        cursor.execute("ALTER TABLE users ADD COLUMN last_link_time REAL DEFAULT 0")
+    except sqlite3.OperationalError: pass
+    try:
+        cursor.execute("ALTER TABLE users ADD COLUMN referred_by INTEGER DEFAULT 0")
+    except sqlite3.OperationalError: pass
+    
     conn.commit()
     conn.close()
 
 def get_or_create_db_user(user_id):
-    conn = sqlite3.connect("bot_data.db")
+    conn = sqlite3.connect(DB_PATH) # Naya Path
     cursor = conn.cursor()
     cursor.execute("SELECT msg_count, is_unlimited, unlocked_at, last_link_time, referred_by FROM users WHERE user_id = ?", (user_id,))
     user = cursor.fetchone()
@@ -78,7 +93,7 @@ def get_or_create_db_user(user_id):
     return user
 
 def update_db_user(user_id, **kwargs):
-    conn = sqlite3.connect("bot_data.db")
+    conn = sqlite3.connect(DB_PATH) # Naya Path
     cursor = conn.cursor()
     for key, value in kwargs.items():
         cursor.execute(f"UPDATE users SET {key} = ? WHERE user_id = ?", (value, user_id))
