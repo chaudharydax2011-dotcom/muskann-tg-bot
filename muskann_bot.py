@@ -189,13 +189,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(reply)
 
 def main():
-    # YE LINE SABSE IMPORTANT HAI - Yahan koi global variable nahi hai
-    app = Application.builder().token(os.environ.get("TELEGRAM_BOT_TOKEN")).build()
+    # Token ko direct environment se uthao, error khatam!
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
     
+    if not token:
+        print("❌ ERROR: Railway Variables mein 'TELEGRAM_BOT_TOKEN' add nahi kiya!")
+        return
+
     init_db()
     
-    # Handlers (Aapke baaki handlers yahan)
-    # app.add_handler(CommandHandler("start", start))
+    # Yahan token variable use karo
+    app = Application.builder().token(token).build()
+    
+    # Handlers add karo
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("refer", refer))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
     print("✅ Bot Started Successfully!")
     app.run_polling()
