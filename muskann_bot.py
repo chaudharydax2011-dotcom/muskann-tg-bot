@@ -37,17 +37,17 @@ REQUIRED_CHANNEL = "@crocodileislive"
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-MODEL = "MODEL" = "deepseek/deepseek-v4-flash:free"
+MODEL = "MODEL" = "deepseek/deepseek-v4-flash:free",
 
 FALLBACK_MODELS = [
-    "openai/gpt-oss-120b:free"
+    "openai/gpt-oss-120b:free",
     "meta-llama/llama-3.1-8b-instruct:free",
-    "nvidia/nemotron-3-super-120b-a12b:free"
-    "openai/gpt-oss-20b:free"
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "openai/gpt-oss-20b:free",
     "qwen/qwen-2-7b-instruct:free",
     "gryphe/mythomist-7b:free",
     "meta-llama/llama-3.3-70b-instruct:free"
-    "z-ai/glm-4.5-air:free"
+    "z-ai/glm-4.5-air:free",
     "mistralai/mistral-7b-instruct:free",
     "openrouter/auto",
 ]
